@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="manifest" href="manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>Enter UPI PIN</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* Specific styles just for these text dots to ensure they center perfectly */
+        .dot-container {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #aaa;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px; /* Size of the * or ● */
+            color: #000;
+            line-height: 0;
+            padding-bottom: 2px;
+        }
+    </style>
+</head>
+<body class="light-theme">
+    
+    <div class="pin-header-soft">
+        <div class="bank-info">SAVINGS: Federal Bank - 0431</div>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" alt="UPI" class="pin-upi-logo-soft">
+    </div>
+
+    <div class="payment-info-soft">
+        <div class="pay-amount" id="dynamic-amount">Pay ₹0.00</div>
+        <div class="pay-to" id="dynamic-name">To loading...</div>
+    </div>
+
+    <main class="pin-content-soft">
+        <div class="pin-prompt-soft">Enter your PIN</div>
+        <div class="pin-dots-soft">
+            <!-- We will inject text inside these divs -->
+            <div id="dot-0" class="dot-container"></div>
+            <div id="dot-1" class="dot-container"></div>
+            <div id="dot-2" class="dot-container"></div>
+            <div id="dot-3" class="dot-container"></div>
+        </div>
+    </main>
+
+    <div class="pin-warning">
+        <span class="material-icons" style="font-size: 14px; margin-right: 4px;">info_outline</span>
+        Never enter your UPI PIN to receive money
+    </div>
+
+    <div class="keypad-soft">
+        <div class="key-soft" onclick="pressKey(1)">1</div>
+        <div class="key-soft" onclick="pressKey(2)">2</div>
+        <div class="key-soft" onclick="pressKey(3)">3</div>
+        
+        <div class="key-soft" onclick="pressKey(4)">4</div>
+        <div class="key-soft" onclick="pressKey(5)">5</div>
+        <div class="key-soft" onclick="pressKey(6)">6</div>
+        
+        <div class="key-soft" onclick="pressKey(7)">7</div>
+        <div class="key-soft" onclick="pressKey(8)">8</div>
+        <div class="key-soft" onclick="pressKey(9)">9</div>
+        
+        <div class="key-soft backspace-soft" onclick="pressBackspace()">
+            <span class="material-icons">backspace</span>
+        </div>
+        <div class="key-soft" onclick="pressKey(0)">0</div>
+        <div class="key-soft submit-key-soft" onclick="submitPin()">Pay</div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            try {
+                const amount = localStorage.getItem('payAmount') || '1.00';
+                const name = localStorage.getItem('payName') || '7909027036@ptsbi';
+                document.getElementById('dynamic-amount').innerText = 'Pay ₹' + amount;
+                document.getElementById('dynamic-name').innerText = 'To ' + name;
+            } catch(e) {
+                document.getElementById('dynamic-amount').innerText = 'Pay ₹1.00';
+                document.getElementById('dynamic-name').innerText = 'To 7909027036@ptsbi';
+            }
+        };
+
+        let currentPin = "";
+        const maxPinLength = 4;
+
+        function updateDots() {
+            for (let i = 0; i < maxPinLength; i++) {
+                let dot = document.getElementById("dot-" + i);
+                if (i < currentPin.length) {
+                    // Remove the hollow border and insert a text character
+                    dot.style.border = "none";
+                    dot.innerText = "●"; // You can change this to "*" if you prefer an asterisk!
+                } else {
+                    // Put the hollow border back and remove the text
+                    dot.style.border = "2px solid #aaa";
+                    dot.innerText = "";
+                }
+            }
+        }
+
+        function vibrate() {
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+        }
+
+        function pressKey(num) {
+            vibrate();
+            if (currentPin.length < maxPinLength) {
+                currentPin += num.toString();
+                updateDots();
+            }
+        }
+
+        function pressBackspace() {
+            vibrate();
+            if (currentPin.length > 0) {
+                currentPin = currentPin.slice(0, -1);
+                updateDots();
+            }
+        }
+
+        function submitPin() {
+            vibrate();
+            if (currentPin.length === maxPinLength) {
+                window.location.href = 'success.html';
+            } else {
+                alert("Please enter full 4-digit PIN");
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="manifest" href="manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta charset="UTF-8">
+    <!-- Strict viewport to prevent zooming -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>Scan QR</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Include HTML5 QR Code Scanner Library -->
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+</head>
+<body class="dark-theme">
+    <div class="scanner-container">
+        <header class="app-header" style="background: rgba(0,0,0,0.5); position: absolute; width: 100%; z-index: 10;">
+            <span class="material-icons">close</span>
+            <h1>Scan Any QR</h1>
+            <span class="material-icons">flash_off</span>
+        </header>
+
+        <!-- Camera Viewport -->
+        <div id="qr-reader" style="width: 100vw; height: 100vh; object-fit: cover;"></div>
+        
+        <div style="position: absolute; bottom: 40px; width: 100%; text-align: center; z-index: 10;">
+            <p class="scan-text" id="scan-status" style="background: rgba(0,0,0,0.6); padding: 10px; display: inline-block; border-radius: 20px;">Align QR code to scan</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const html5QrCode = new Html5Qrcode("qr-reader");
+            
+            // Function to parse the Merchant Name (pn parameter) from a UPI QR code
+            function extractUPIName(qrText) {
+                try {
+                    // UPI format: upi://pay?pa=merchant@upi&pn=Merchant%20Name&mc=0000
+                    if (qrText.toLowerCase().includes('upi://pay')) {
+                        const url = new URL(qrText.replace('upi://', 'http://')); // Fake protocol to parse params easily
+                        const payeeName = url.searchParams.get('pn');
+                        if (payeeName) {
+                            return decodeURIComponent(payeeName.replace(/\+/g, ' '));
+                        }
+                    }
+                } catch(e) {
+                    console.log("Not a standard UPI QR or parsing failed.");
+                }
+                return qrText; // Return raw text if not a standard UPI QR
+            }
+
+            const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+                // Stop scanning once we get a result
+                html5QrCode.stop().then((ignore) => {
+                    document.getElementById('scan-status').innerText = "QR Found! Processing...";
+                    
+                    // Extract the real name
+                    const realName = extractUPIName(decodedText);
+                    
+                    // Save it to localStorage
+                    localStorage.setItem('scannedName', realName);
+                    
+                    // Redirect to the payment page
+                    window.location.href = 'pay.html';
+                }).catch((err) => {
+                    console.log("Error stopping scanner", err);
+                });
+            };
+
+            const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+
+            // Start the rear camera
+            html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback)
+            .catch((err) => {
+                document.getElementById('scan-status').innerText = "Camera access denied or unavailable.";
+                console.error("Camera Error:", err);
+            });
+        });
+        
+    </script>
+    <button onclick="document.documentElement.requestFullscreen()">Go Fullscreen</button>
+</body>
+</html>

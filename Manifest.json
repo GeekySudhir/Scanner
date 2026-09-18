@@ -1,0 +1,9 @@
+{
+  "name": "UPI App",
+  "short_name": "UPI",
+  "start_url": "scanner.html",
+  "display": "fullscreen",
+  "background_color": "#1a1a1a",
+  "theme_color": "#138808",
+  "icons": []
+}

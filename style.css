@@ -1,0 +1,309 @@
+/* --- Global Reset & Fonts --- */
+* {
+    margin: 0; padding: 0; box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body.dark-theme {
+    background-color: #0d0d0d; color: #ffffff;
+    height: 100vh; display: flex; flex-direction: column;
+    overflow-x: hidden; position: relative;
+}
+
+body.light-theme {
+    background-color: #ffffff; color: #000000;
+    height: 100vh; display: flex; flex-direction: column;
+}
+
+a, button { text-decoration: none; border: none; cursor: pointer; }
+
+/* =========================================
+   PAGE 1: SCANNER.HTML
+   ========================================= */
+.scanner-container { height: 100vh; background: #000; display: flex; flex-direction: column; }
+.camera-viewfinder { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+.scan-box { width: 250px; height: 250px; border: 2px solid rgba(255, 255, 255, 0.5); position: relative; border-radius: 12px; overflow: hidden; margin-bottom: 24px; }
+.scan-line { width: 100%; height: 4px; background-color: #00ff00; position: absolute; top: 0; animation: scan 2s infinite linear; box-shadow: 0 0 10px #00ff00; }
+@keyframes scan { 0% { top: 0; } 50% { top: 100%; } 100% { top: 0; } }
+.scan-text { color: #fff; font-size: 14px; opacity: 0.8; }
+
+/* =========================================
+   PAGE 2: INDEX.HTML
+   ========================================= */
+.app-header { display: flex; align-items: center; padding: 16px 20px; height: 60px; }
+.app-header h1 { font-size: 18px; font-weight: 500; margin-left: 24px; flex: 1; }
+.container { padding: 16px; flex: 1; }
+.payment-card { background-color: #1a1a1a; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 20px; }
+.user-row { display: flex; align-items: center; gap: 16px; }
+.avatar-circle { width: 40px; height: 40px; background-color: #ffffff; color: #000000; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 18px; flex-shrink: 0; }
+
+/* Editable name styling */
+.editable-name-input { background: transparent; border: none; border-bottom: 1px dashed #555; color: #ffffff; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; width: 100%; outline: none; padding-bottom: 4px; }
+.editable-name-input:focus { border-bottom: 1px solid #9d4edd; }
+.edit-icon { font-size: 16px; color: #888; }
+
+.amount-container { display: flex; align-items: center; background-color: #1a1a1a; border: 1px solid #9d4edd; border-radius: 8px; padding: 12px 16px; }
+.rupee-symbol-large { font-size: 24px; margin-right: 8px; font-weight: 500; }
+.amount-input { background: transparent; border: none; color: #ffffff; font-size: 24px; font-weight: 600; outline: none; width: 100%; }
+.message-input { background-color: #1a1a1a; border: 1px solid #333333; border-radius: 8px; padding: 16px; color: #ffffff; font-size: 14px; outline: none; }
+.proceed-btn { background-color: #8a2be2; color: #ffffff; width: 100%; padding: 18px; text-align: center; font-size: 16px; font-weight: 600; position: absolute; bottom: 0; }
+
+/* =========================================
+   PAGE 3: PIN.HTML
+   ========================================= */
+/* =========================================
+   PAGE 3: PIN.HTML (SOFT DESIGN)
+   ========================================= */
+.pin-header-soft {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #f0f0f0;
+}
+.bank-info {
+    font-size: 13px;
+    font-weight: 600;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.pin-upi-logo-soft {
+    height: 18px;
+}
+
+.payment-info-soft {
+    padding: 20px;
+    background-color: #ffffff;
+}
+.pay-amount {
+    font-size: 20px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 4px;
+}
+.pay-to {
+    font-size: 13px;
+    color: #666;
+}
+
+.pin-content-soft {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    padding: 40px 0;
+}
+.pin-prompt-soft {
+    font-size: 15px;
+    color: #333;
+    font-weight: 500;
+    margin-bottom: 24px;
+}
+.pin-dots-soft {
+    display: flex;
+    gap: 20px;
+}
+
+/* Dots Styling */
+.dot-hollow {
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid #aaa;
+    border-radius: 50%;
+    background-color: transparent;
+    transition: all 0.1s ease;
+}
+.dot-filled {
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid #222;
+    border-radius: 50%;
+    background-color: #222;
+    transition: all 0.1s ease;
+}
+
+.pin-warning {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #888;
+    font-size: 12px;
+    padding: 10px;
+    background-color: #ffffff;
+}
+
+/* Soft Keypad */
+.keypad-soft {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    padding: 20px 24px 30px 24px;
+    background-color: #ffffff;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+.key-soft {
+    height: 60px;
+    background-color: #f2f4f7;
+    border-radius: 30px; /* Pill shape */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: 400;
+    color: #333;
+    user-select: none;
+    transition: background-color 0.1s ease, transform 0.05s ease;
+}
+.key-soft:active {
+    background-color: #e0e4e9;
+    transform: scale(0.97);
+}
+.backspace-soft {
+    background-color: #ebecf0;
+    color: #555;
+}
+.submit-key-soft {
+    background-color: #2e3b9e; /* Dark Blue */
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 600;
+}
+.submit-key-soft:active {
+    background-color: #1e2875;
+}
+
+/* =========================================
+   PAGE 4: SUCCESS.HTML
+   ========================================= */
+.success-page { background-color: #1a1a1a; overflow-y: auto; }
+.success-header-bg { background-color: #388e3c; height: 35vh; width: 100%; display: flex; flex-direction: column; }
+.success-message { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+
+/* Zooming Animation */
+@keyframes zoomInOut {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); box-shadow: 0 0 15px rgba(255,255,255,0.5); }
+    100% { transform: scale(1); }
+}
+.check-circle { width: 50px; height: 50px; background-color: #ffffff; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-bottom: 16px; }
+.animated-tick { animation: zoomInOut 1.5s infinite ease-in-out; }
+
+.success-message h2 { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
+.success-message p { font-size: 12px; opacity: 0.9; }
+
+.success-details-card { background-color: #222222; margin: -30px 16px 20px 16px; border-radius: 12px; padding: 24px 20px; z-index: 10; position: relative; }
+.transaction-row { display: flex; align-items: center; gap: 16px; margin-bottom: 15px; }
+.txn-icon { width: 48px; height: 48px; background-color: #9d4edd; border-radius: 12px; display: flex; justify-content: center; align-items: center; }
+.txn-icon .material-icons { color: #ffffff; }
+.txn-info .txn-id { font-size: 13px; color: #aaa; margin-bottom: 4px; }
+.txn-info .txn-amount { font-size: 20px; font-weight: 700; }
+.divider { height: 1px; background-color: #333333; margin: 15px 0; }
+
+.upi-code-area { text-align: center; }
+.upi-label { font-size: 12px; color: #888; margin-bottom: 4px; }
+.upi-value { font-size: 16px; font-weight: 600; letter-spacing: 1px; }
+
+.action-buttons { display: flex; justify-content: space-between; }
+.action-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.action-circle { width: 40px; height: 40px; background-color: #331a4d; border-radius: 50%; display: flex; justify-content: center; align-items: center; }
+.action-circle .material-icons { color: #a855f7; font-size: 18px; }
+.action-item span { font-size: 11px; color: #cccccc; }
+
+/* Ad Banner */
+.ad-banner-container { margin: 0 16px 80px 16px; background-color: #222; border-radius: 12px; overflow: hidden; position: relative; border: 1px solid #333; }
+.ad-image { width: 100%; height: 100px; object-fit: cover; opacity: 0.7; display: block; }
+.ad-text { position: absolute; bottom: 0; left: 0; width: 100%; padding: 8px; background: rgba(0,0,0,0.6); font-size: 12px; font-weight: 600; text-align: center; }
+
+.done-btn { position: fixed; bottom: 0; background: #222; padding: 20px; width: 100%; text-align: center; color: #a855f7; font-size: 16px; font-weight: 600; border-top: 1px solid #333; }
+
+/* Add this to style.css */
+input, textarea {
+    font-size: 16px !important; /* iOS zooms if font is smaller than 16px */
+}
+body {
+    touch-action: pan-x pan-y; /* Prevents double-tap or pinch zooming */
+}
+/* =========================================
+   LOADING SCREEN STYLES
+   ========================================= */
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: #1a1a1a;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 999;
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 5px solid #333;
+    border-top: 5px solid #388e3c; /* Green spinner */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 24px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.processing-text {
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.secure-text {
+    color: #888;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+}
+
+/* =========================================
+   UPDATED ZOOM ANIMATION
+   ========================================= */
+@keyframes zoomInOut {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+
+/* Add box-shadow glow specifically to the circle during animation */
+@keyframes zoomInOutGlow {
+    0% { transform: scale(1); box-shadow: 0 0 0px rgba(255,255,255,0); }
+    50% { transform: scale(1.15); box-shadow: 0 0 15px rgba(255,255,255,0.5); }
+    100% { transform: scale(1); box-shadow: 0 0 0px rgba(255,255,255,0); }
+}
+
+/* Reusable classes for the zoom effect */
+.zoom-animate {
+    animation: zoomInOut 1.5s infinite ease-in-out;
+}
+
+.check-circle.zoom-animate {
+    animation: zoomInOutGlow 1.5s infinite ease-in-out;
+}
+
+/* Layout for UTR & TXN ID */
+.upi-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

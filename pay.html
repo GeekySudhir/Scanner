@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="manifest" href="manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Pay</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body class="dark-theme">
+    <!-- Header -->
+    <header class="app-header">
+        <span class="material-icons">arrow_back</span>
+        <h1>Pay</h1>
+        <span class="material-icons help-icon">help_outline</span>
+    </header>
+
+    <!-- Main Payment Card -->
+    <main class="container">
+        <div class="payment-card">
+            <div class="user-row">
+                <div class="avatar-circle">
+                    <span class="rupee-symbol">₹</span>
+                </div>
+                <!-- EDITABLE NAME FIELD -->
+                <input type="text" id="recipient-name" class="editable-name-input" value="Loading...">
+                <span class="material-icons edit-icon">edit</span>
+            </div>
+
+            <div class="amount-container">
+                <span class="rupee-symbol-large">₹</span>
+                <input type="number" id="amount-input" class="amount-input" value="" placeholder="0">
+            </div>
+
+            <input type="text" class="message-input" placeholder="Add a message (optional)">
+        </div>
+    </main>
+
+    <!-- Proceed Button points to PIN page -->
+    <button onclick="proceedToPin()" class="proceed-btn">Proceed To Pay</button>
+    
+    <script>
+        // Automatically populate scanned name if it exists
+        window.onload = function() {
+            const scannedName = localStorage.getItem('scannedName');
+            if(scannedName) {
+                document.getElementById('recipient-name').value = scannedName;
+            }
+        };
+
+        function proceedToPin() {
+            // Save amount and name so success page can use them
+            const amount = document.getElementById('amount-input').value;
+            const name = document.getElementById('recipient-name').value;
+            localStorage.setItem('payAmount', amount);
+            localStorage.setItem('payName', name);
+            window.location.href = 'pin.html';
+        }
+    </script>
+    <button onclick="document.documentElement.requestFullscreen()">Go Fullscreen</button>
+</body>
+</html>
